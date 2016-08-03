@@ -55,9 +55,16 @@ The script errors out, providing information on what went wrong.  The client mad
 Why was our request not authenticated?  When we create our client object, we pass in an access token.  Where should the value of the token be found?  `ENV["GITHUB_ACCESS_TOKEN"]`.  So, we need to have our access token stored in the `GITHUB_ACCESS_TOKEN` environment variable.  Right now, that value is `nil`, which is why our request fails.
 
 
+### Release 2:  Get an Access Token
+Before we can assign an access token to an environment variable, we have to request one from GitHub.  Sign into GitHub and [generate a new access token][github new token].  In filling out the form, any description will do.  For the scopes, only check "user"; this limits the type of requests that can be made with this particular token.
+
+When your token is generated, copy it.
+
+
 
 [401]: https://httpstatuses.com/401
 [amazon s3]: https://aws.amazon.com/s3/
+[github new token]:https://github.com/settings/tokens/new
 [octokit]: https://github.com/octokit/octokit.rb
 [twitter api]: https://dev.twitter.com/
 [wikipedia environment variables]: https://en.wikipedia.org/wiki/Environment_variable
