@@ -103,9 +103,31 @@ We can now run our script multiple times without redeclaring the value of our to
 *Note:*  If we want to make an environment variable available every time we use the terminal, we can set configuration details in files like `~/.bash_profile`.
 
 
+### Release 5:  Setting Environment Variables in Ruby with Dotenv
+In *Release 3* we set our token as an environment variable in our Ruby process, but we had to declare the token every time we ran our script.  In *Release 4* we set the token as an environment variable in the terminal.  This meant that we only had to declare it once—but once every time we opened a window or tab in the terminal.  It also made our token visible to the shell and any other processes running in the shell.
+
+And we're just dealing with one environment variable.  Imagine if we needed a handful of them.  Or a dozen.  We certainly wouldn't want to type them in each time with opened the terminal.
+
+The [Dotenv][] gem can help us.  This gem provides an executable that we can use when running an application.  It reads the contents of a `.env` file.  In the `.env` file, we can declare each of our environment variables on a separate line:
+
+```
+GITHUB_ACCESS_TOKEN=cb229ca4df47129a8be1cb149f5d08e64d1a4eb1
+OTHER_TOKEN=ed872ca4df47129a8be1cb149f5d08e64d1a2si5
+OTHER_SECRET=ue983ca0df47129a8be1cb149f5d08e64d1i6xz8
+```
+
+Create a `.env` file and add our GitHub access token to it.  Then use Dotenv's executable to run our script:
+
+```
+$ dotenv bundle exec ruby runner.rb
+```
+
+Of course, this `.env` file now contains all of our tokens and secrets.  We need to keep it secure, so we definitely want to prevent it from being checked into our repo.  To do this, our repo already contains a `.gitignore` file that tells git to ignore any files named `.env`.  If we're going to create a `.env` file, it's critical that we tell git to ignore it.
+
 
 [401]: https://httpstatuses.com/401
 [amazon s3]: https://aws.amazon.com/s3/
+[dotenv]: https://github.com/bkeepers/dotenv
 [github new token]:https://github.com/settings/tokens/new
 [octokit]: https://github.com/octokit/octokit.rb
 [twitter api]: https://dev.twitter.com/
