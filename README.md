@@ -61,6 +61,16 @@ Before we can assign an access token to an environment variable, we have to requ
 When your token is generated, copy it.
 
 
+### Release 3:  Make the Token Available to Ruby
+Now that we have an access token, let's use.  To start, we can assign environment variables when running our script:
+
+```
+$ GITHUB_ACCESS_TOKEN=cb229ca4df47129a8be1cb149f5d08e64d1a4eb1 ruby runner.rb
+```
+
+Running the script as shown works, but it's not terribly convenient.  The variable that we declare is only available to the child process, and it is lost when the process exits (i.e., when our script is done running).  The variable is not stored in the shell, so we have to declare the token every time that we run the script.
+
+
 
 [401]: https://httpstatuses.com/401
 [amazon s3]: https://aws.amazon.com/s3/
