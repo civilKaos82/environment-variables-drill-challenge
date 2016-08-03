@@ -71,6 +71,38 @@ $ GITHUB_ACCESS_TOKEN=cb229ca4df47129a8be1cb149f5d08e64d1a4eb1 ruby runner.rb
 Running the script as shown works, but it's not terribly convenient.  The variable that we declare is only available to the child process, and it is lost when the process exits (i.e., when our script is done running).  The variable is not stored in the shell, so we have to declare the token every time that we run the script.
 
 
+### Release 4:  Make the Token an Environment Variable in the Shell
+Passing the token every time we run our script could be a little tedious.  How could we make this more convenient?  As we saw in *Release 0*, environment variables in our shell are passed to their child processes (`ruby`).  So, how can we make our token an environment variable in the shell?
+
+We can start by declaring the token as a variable:
+
+```
+$ GITHUB_ACCESS_TOKEN=cb229ca4df47129a8be1cb149f5d08e64d1a4eb1
+```
+
+This assigns our token as a variable, but it's not an environment variable—check with `env`.  To make it an environment variable, we *export* it:
+
+```
+$ export GITHUB_ACCESS_TOKEN
+```
+
+This can also be done in one line:
+
+```
+$ export GITHUB_ACCESS_TOKEN=cb229ca4df47129a8be1cb149f5d08e64d1a4eb1
+```
+
+Now our token is assigned to an environment variable—check with `env`.  As such, it is available in `ENV` when we run our script.  Run it:
+
+```
+$ bundle exec ruby runner.rb
+```
+
+We can now run our script multiple times without redeclaring the value of our token.  Unfortunately, this environment variable is only set for this one shell.  Open another tab or window in the terminal, and our environment variable will not be set.
+
+*Note:*  If we want to make an environment variable available every time we use the terminal, we can set configuration details in files like `~/.bash_profile`.
+
+
 
 [401]: https://httpstatuses.com/401
 [amazon s3]: https://aws.amazon.com/s3/
