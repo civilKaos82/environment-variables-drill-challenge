@@ -40,8 +40,25 @@ $ irb
 Notice that they have the same values as they did in the terminal.  So, to make a value like a token accessible in our program, we can set it as an environment variable in the environment in which our program runs.  In this case, in the terminal.
 
 
+### Release 1:  The Need for a GitHub Access Token
+We have a small script written in the file `runner.rb`.  The script makes use of the [Octokit][] gem to interact with the GitHub API.  In the scriptp, we first create a client object, passing in an access token which is used to authenticate us.  Then we ask the client to get information on the authenticated user from the GitHub API.  Finally, we display some information about that user.
 
+Install the required gems and run the script:
+
+```
+$ bundle install
+$ bundle exec ruby runner.rb
+```
+
+The script errors out, providing information on what went wrong.  The client made a GET request to `https://api.github.com/user`.  What was the response code?  [401][], noting that making the request authentication.
+
+Why was our request not authenticated?  When we create our client object, we pass in an access token.  Where should the value of the token be found?  `ENV["GITHUB_ACCESS_TOKEN"]`.  So, we need to have our access token stored in the `GITHUB_ACCESS_TOKEN` environment variable.  Right now, that value is `nil`, which is why our request fails.
+
+
+
+[401]: https://httpstatuses.com/401
 [amazon s3]: https://aws.amazon.com/s3/
+[octokit]: https://github.com/octokit/octokit.rb
 [twitter api]: https://dev.twitter.com/
 [wikipedia environment variables]: https://en.wikipedia.org/wiki/Environment_variable
 [yelp api]: https://www.yelp.com/developers/documentation/v2/overview
