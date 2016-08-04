@@ -1,7 +1,7 @@
 # Working with Environment Variables
 
 ## Summary
-As we build more advanced applications, it's common to begin integrating with third-party services.  We might want to use the [Twitter API][] to allow users to tweet from our application or the [Yelp API][] to pull restaurant reviews.  Perhaps we want to use [Amazon S3] to store uploaded photos.  When we use these services we need to authenticate ourselves with each request.  This means sending data along with our requests to verify who we are:  username and password, an access token, etc.  
+As we build more advanced applications, it's common to begin integrating with third-party services.  We might want to use the [Twitter API][] to allow users to tweet from our application or the [Yelp API][] to pull restaurant reviews.  Perhaps we want to use [Amazon S3] to store uploaded images.  When we use these services we need to authenticate ourselves with each request.  This means sending data along with our requests to verify who we are:  username and password, an access token, etc.  
 
 Different services have different requirements, but whatever those requirements are, we want to keep our passwords and tokens secure.  We do not want to share them with anyone.  We definitely need to keep them out of GitHub.
 
@@ -25,7 +25,7 @@ $ echo $USER
 Apprentice
 ```
 
-When we run a process inside this shell, these environment variables are passed to that process.  So, they are available when we run a `ruby` process or `irb`.
+When we run a process inside this shell, these environment variables are passed to that child process.  So, these environment variables are available when we run `ruby`, `irb`, or another process.
 
 In Ruby processes, these environment variables are stored in the `ENV` object.  `ENV` is like a hash with key-value pairs.  Open IRB and access some of the environment variables:
 
@@ -37,7 +37,7 @@ $ irb
 # => "Apprentice"
 ```
 
-Notice that they have the same values as they did in the terminal.  So, to make a value like a token accessible in our program, we can set it as an environment variable in the environment in which our program runs.  In this case, in the terminal.
+Notice that they have the same values as they did in the terminal.  So, to make a value like a token accessible in our program, we can set it up as an environment variable.
 
 
 ### Release 1:  The Need for a GitHub Access Token
@@ -50,7 +50,7 @@ $ bundle install
 $ bundle exec ruby runner.rb
 ```
 
-The script errors out, providing information on what went wrong.  The client made a GET request to `https://api.github.com/user`.  What was the response code?  [401][], noting that making the request authentication.
+The script errors out, providing information on what went wrong.  The client made a GET request to `https://api.github.com/user`.  What was the response code?  [401][], noting that making the request requires authentication.
 
 Why was our request not authenticated?  When we create our client object, we pass in an access token.  Where should the value of the token be found?  `ENV["GITHUB_ACCESS_TOKEN"]`.  So, we need to have our access token stored in the `GITHUB_ACCESS_TOKEN` environment variable.  Right now, that value is `nil`, which is why our request fails.
 
@@ -72,7 +72,7 @@ Running the script as shown works, but it's not terribly convenient.  The variab
 
 
 ### Release 4:  Make the Token an Environment Variable in the Shell
-Passing the token every time we run our script could be a little tedious.  How could we make this more convenient?  As we saw in *Release 0*, environment variables in our shell are passed to their child processes (`ruby`).  So, how can we make our token an environment variable in the shell?
+Passing the token every time we run our script could be a little tedious.  How could we make this more convenient?  As we saw in *Release 0*, environment variables in our shell are passed to their child processes (e.g., `ruby`).  So, how can we make our token an environment variable in the shell?
 
 We can start by declaring the token as a variable:
 
@@ -86,13 +86,13 @@ This assigns our token as a variable, but it's not an environment variable—che
 $ export GITHUB_ACCESS_TOKEN
 ```
 
-This can also be done in one line:
+These two steps can also be done in one line:
 
 ```
 $ export GITHUB_ACCESS_TOKEN=cb229ca4df47129a8be1cb149f5d08e64d1a4eb1
 ```
 
-Now our token is assigned to an environment variable—check with `env`.  As such, it is available in `ENV` when we run our script.  Run it:
+Now our token is assigned to an environment variable—check with `env`.  As such, it is available in the ruby `ENV` object when we run our script.  Run it:
 
 ```
 $ bundle exec ruby runner.rb
@@ -104,9 +104,9 @@ We can now run our script multiple times without redeclaring the value of our to
 
 
 ### Release 5:  Setting Environment Variables in Ruby with Dotenv
-In *Release 3* we set our token as an environment variable in our Ruby process, but we had to declare the token every time we ran our script.  In *Release 4* we set the token as an environment variable in the terminal.  This meant that we only had to declare it once—but once every time we opened a window or tab in the terminal.  It also made our token visible to the shell and any other processes running in the shell.
+In *Release 3* we set our token as an environment variable in our Ruby process, but we had to declare the variable every time we ran our script.  In *Release 4* we set the token as an environment variable in the terminal.  This meant that we only had to declare it once—but once every time we open a window or tab in the terminal.  It also made our token visible to the shell and any other processes running in the shell.
 
-And we're just dealing with one environment variable.  Imagine if we needed a handful of them.  Or a dozen.  We certainly wouldn't want to type them in each time with opened the terminal.
+In this challenge, we're just dealing with one environment variable.  Imagine if we needed a handful of them.  Or a dozen.  We certainly wouldn't want to type them in each time we open the terminal.
 
 The [Dotenv][] gem can help us.  This gem provides an executable that we can use when running an application.  It reads the contents of a `.env` file.  In the `.env` file, we can declare each of our environment variables on a separate line:
 
