@@ -125,10 +125,17 @@ $ dotenv bundle exec ruby runner.rb
 Of course, this `.env` file now contains all of our tokens and secrets.  We need to keep it secure, so we definitely want to prevent it from being checked into our repo.  To do this, our repo already contains a `.gitignore` file that tells git to ignore any files named `.env`.  If we're going to create a `.env` file, it's critical that we tell git to ignore it.
 
 
+## Conclusion
+We've looked at a few different options for how to configure an application with environment variables.  In this challenge we've used them to provide our application with sensitive data that we don't want in the code base itself.
+
+The techniques that we've looked at are helpful when developing an application locally.  We can use environment variables to configure an application hosted on Heroku ([config vars][heroku config vars]) or other services, too, but we'll need to follow their instructions for assigning them.
+
+
 [401]: https://httpstatuses.com/401
 [amazon s3]: https://aws.amazon.com/s3/
 [dotenv]: https://github.com/bkeepers/dotenv
 [github new token]:https://github.com/settings/tokens/new
+[heroku config vars]: https://devcenter.heroku.com/articles/config-vars
 [octokit]: https://github.com/octokit/octokit.rb
 [twitter api]: https://dev.twitter.com/
 [wikipedia environment variables]: https://en.wikipedia.org/wiki/Environment_variable
