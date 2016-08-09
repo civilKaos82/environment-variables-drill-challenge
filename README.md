@@ -94,9 +94,15 @@ In *Release 3* we set our token as an environment variable in our Ruby process, 
 
 In this challenge, we're just dealing with one environment variable.  Imagine if we needed a handful of them.  Or a dozen.  We certainly wouldn't want to type them in each time we open the terminal.
 
-The [Dotenv][] gem can help us.  This gem provides an executable that we can use when running an application.  It runs first, reading contents of a `.env` file if it finds one in your program's directory.
+The [Dotenv][] gem can help us.  Let's ensure that the gem is installed:
 
- In the `.env` file, we can declare each of our environment variables on a separate line:
+```
+$ gem install dotenv
+```
+
+This gem provides an executable that we can use when running an application.  It runs first, reading the contents of a `.env` file if it finds one in your program's directory.
+
+In the `.env` file, we can declare each of our environment variables on a separate line:
 
 ```
 GITHUB_ACCESS_TOKEN=cb229ca4df47129a8be1cb149f5d08e64d1a4eb1
